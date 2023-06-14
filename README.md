@@ -10,21 +10,23 @@ Multiple rules can run for the same event.
 
 ```toml
 [[exec.rules]]
-on   = "torrent_added"
+on   = "added"
 file = "/my/awesome/script.sh"
-args = ["--name", "$TorrentName"]
+args = ["--name", "%N"]
 ```
 
 ### Events (on)
 
- * `torrent_added`
- * `torrent_finished`
- * `torrent_paused`
- * `torrent_removed`
+ * `added`
+ * `finished`
+ * `paused`
+ * `removed`
 
 ### Tokens
 
 Each invocation can use these tokens to pass torrent specific data to the
 executable.
 
- * `TorrentName`
+ * `%D` - the save path.
+ * `%N` - the name of the torrent.
+ * `%T` - the current tracker (if any).
