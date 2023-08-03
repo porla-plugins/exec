@@ -1,7 +1,7 @@
 local config   = require "config"
+local events   = require "events"
 local log      = require "log"
 local process  = require "process"
-local torrents = require "torrents"
 
 local signal_refs = {}
 
@@ -39,7 +39,6 @@ local function build_args(args, torrent)
 end
 
 local function run(rule, torrent)
-    print("launching "..rule.file)
     process.launch({
         file = rule.file,
         args = build_args(rule.args, torrent),
@@ -52,14 +51,14 @@ local function run(rule, torrent)
 end
 
 function porla.init()
-    if config.exec == nil or config.exec.rules == nil or #config.exec.rules == 0 then
+    if not type(config) == "array" or #config == 0 then
         log.warning "No exec rules found"
         return
     end
 
-    log.info(string.format("Setting up %d exec rule(s)", #config.exec.rules))
+    log.info(string.format("Setting up %d exec rule(s)", #config))
 
-    for _, rule in pairs(config.exec.rules) do
+    for _, rule in pairs(config) do
         if rule.on == nil then
             log.warning "Rule is missing 'on' field"
             goto next_rule
@@ -72,7 +71,7 @@ function porla.init()
 
         table.insert(
             signal_refs,
-            torrents.on(rule.on, function(torrent)
+            events.on(rule.on, function(torrent)
                 run(rule, torrent)
             end))
 

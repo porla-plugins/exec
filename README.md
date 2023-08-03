@@ -8,19 +8,31 @@ Multiple rules can run for the same event.
 
 ## Configuration
 
-```toml
-[[exec.rules]]
-on   = "added"
-file = "/my/awesome/script.sh"
-args = ["--name", "%N"]
+This plugin is configured with Lua. Use the following snippet as a guide.
+
+```lua
+return {
+    {
+        on = "torrent_added",
+        file = "/my/awesome/script.sh"
+        args = {"%N"}
+    },
+    {
+        on = "torrent_paused",
+        file = "/my/awesome/script2.sh"
+        args = {"%D", "%N"}
+    }
+}
 ```
 
 ### Events (on)
 
- * `added`
- * `finished`
- * `paused`
- * `removed`
+These are the events you can listen for.
+
+ * `torrent_added`
+ * `torrent_finished`
+ * `torrent_paused`
+ * `torrent_removed`
 
 ### Tokens
 
