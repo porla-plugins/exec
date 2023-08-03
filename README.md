@@ -14,12 +14,12 @@ This plugin is configured with Lua. Use the following snippet as a guide.
 return {
     {
         on = "torrent_added",
-        file = "/my/awesome/script.sh"
+        file = "/my/awesome/script.sh",
         args = {"%N"}
     },
     {
         on = "torrent_paused",
-        file = "/my/awesome/script2.sh"
+        file = "/my/awesome/script2.sh",
         args = {"%D", "%N"}
     }
 }
